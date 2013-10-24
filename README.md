@@ -2,7 +2,7 @@ knitic-2D-yarn-rendering
 ========================
 
 Simple 2D yarn visualization rendering. The tool can import images and export as yarn visualizations.
-This project is part of knitic project.http://knitic.com
+This project is part of the research on the knitic project(open hardware knitting machine):http://knitic.com
 
 The code is made using Processing 2.
 
