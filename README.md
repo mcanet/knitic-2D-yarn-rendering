@@ -8,7 +8,7 @@ The code is made using Processing 2.
 
 Dependency libraries:
 * controlP5
-* 
+
 Please report any error you may find to me (mar.canet@gmail.com).
 
 Author: Mar Canet(http://mcanet.info) - Twitter: mcanet
