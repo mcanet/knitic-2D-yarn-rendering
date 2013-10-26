@@ -6,13 +6,28 @@ void setupGui() {
         ;
 
   cp5.addButton("Open pattern image", 1, 10, height-60, 100, 20);
-  cp5.addButton("Export image", 1, 450, height-60, 100, 20);
+  
+  cp5.addSlider("Yarn thickness")
+     .setPosition(450,height-60)
+     .setRange(1,20)
+     .setValue(2)
+     ;
+     
+  cp5.addSlider("Stitch Size")
+     .setPosition(450,height-40)
+     .setRange(1,100)
+     .setValue(7)
+     ;
+  
+  cp5.addButton("Export image", 1, 650, height-60, 100, 20);
   cp5.addToggle("Export transparent background")
-    .setPosition(450, height-35)
+    .setPosition(650, height-35)
       .setSize(15, 15)
         .setValue(true)
           ;
+  
 }
+
 void guiDraw() {
   noStroke();
   fill(100);
@@ -46,6 +61,15 @@ public void controlEvent(ControlEvent c) {
     else {
       exportTransparentPattern = true;
     }
+  }
+  if (c.getName()=="Yarn thickness") {
+    println(c.getValue());
+    myYarnRender.yarnthickness = ceil(c.getValue());
+    myYarnRender.render();
+  }
+  if (c.getName()=="Stitch Size") {
+    myYarnRender.stitchSize = ceil(c.getValue());
+    myYarnRender.render();
   }
 }
 

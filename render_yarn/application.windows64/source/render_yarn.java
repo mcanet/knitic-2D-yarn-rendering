@@ -34,7 +34,7 @@ public void setup() {
 
   size(1600, 600);
   smooth();
-  loadNewpattern("user1img.png");
+  loadNewpattern("sample.png");
   noStroke();
   setupGui();
 }
@@ -67,13 +67,28 @@ public void setupGui() {
         ;
 
   cp5.addButton("Open pattern image", 1, 10, height-60, 100, 20);
-  cp5.addButton("Export image", 1, 450, height-60, 100, 20);
+  
+  cp5.addSlider("Yarn thickness")
+     .setPosition(450,height-60)
+     .setRange(1,20)
+     .setValue(2)
+     ;
+     
+  cp5.addSlider("Stitch Size")
+     .setPosition(450,height-40)
+     .setRange(1,100)
+     .setValue(7)
+     ;
+  
+  cp5.addButton("Export image", 1, 650, height-60, 100, 20);
   cp5.addToggle("Export transparent background")
-    .setPosition(450, height-35)
+    .setPosition(650, height-35)
       .setSize(15, 15)
         .setValue(true)
           ;
+  
 }
+
 public void guiDraw() {
   noStroke();
   fill(100);
@@ -108,6 +123,15 @@ public void controlEvent(ControlEvent c) {
       exportTransparentPattern = true;
     }
   }
+  if (c.getName()=="Yarn thickness") {
+    println(c.getValue());
+    myYarnRender.yarnthickness = ceil(c.getValue());
+    myYarnRender.render();
+  }
+  if (c.getName()=="Stitch Size") {
+    myYarnRender.stitchSize = ceil(c.getValue());
+    myYarnRender.render();
+  }
 }
 
 // color information from ColorPicker 'picker' are forwarded to the picker(int) function
@@ -128,14 +152,20 @@ class yarnRender {
   yarnStitch[] myYarn;
   int stitchSize;
   int widthYarn;
+  int yarnthickness;
   PImage img;
 
   yarnRender() {
     stitchSize = 7;
+    yarnthickness = 2;
   }
 
   public void setStitchSize(int _stitchSize) {
-    stitchSize = stitchSize;
+    stitchSize = _stitchSize;
+    render();
+  }
+  
+  public void render(){
     loadPattern(img);
   }
 
@@ -144,10 +174,11 @@ class yarnRender {
     img = _img;
     img.loadPixels();
     int totalStitch = img.height*img.width;
+    
     widthYarn = img.width;
     myYarn = new yarnStitch[totalStitch];
     for (int i=0; i<myYarn.length;i++) {
-      myYarn[i] = new yarnStitch(stitchSize);
+      myYarn[i] = new yarnStitch(stitchSize, yarnthickness);
     }
 
     fbo = createGraphics(img.width*stitchSize*2, (img.height+1)*stitchSize*2);
@@ -181,24 +212,13 @@ class yarnRender {
         if (ceil(loc/widthYarn)==ceil((myYarn.length-1)/widthYarn)) lastRow = true;
 
         // The functions red(), green(), and blue() pull out the 3 color components from a pixel.
-        float r1 = red(img.pixels[loc]);
-        float g1 = green(img.pixels[loc]);
-        float b1 = blue(img.pixels[loc]);
-        float a1 = 1;
-
-        float r2 =0; 
-        float g2 =0;
-        float b2 =0;
-        float a2 =0;
-
+        int c1 = img.pixels[loc];
+        
+        int c2 = color(0,0,0);
+        
         if (!lastRow) {
-          r2 = red(img.pixels[loc+widthYarn]);
-          g2 = green(img.pixels[loc+widthYarn]);
-          b2 = blue(img.pixels[loc+widthYarn]);
-          a2 = 1;
+          c2 = img.pixels[loc+widthYarn];
         }
-        int c1 = color (r1, g1, b1);
-        int c2 = color (r2, g2, b2);
         if (firstRow) {
           myYarn[loc].drawPieceModelUnit(loc%widthYarn, loc/widthYarn, c1, c1, true, lastRow);
           myYarn[loc].drawPieceModelUnit((loc%widthYarn), (loc/widthYarn)+1, c1, c2, false, lastRow);
@@ -214,16 +234,19 @@ class yarnRender {
 class yarnStitch {
   boolean gridEnabled = false;
   boolean debug = false;
-  float sizeCub = 10;
+  float sizeCub;
+  int yarnthickness;
+  
   int yarn0 = color (255, 255, 255);
   int yarn1 = color (255, 255, 255);
   int colorDebug = color (255, 102, 0);
-
+  
   yarnStitch() {
   }
 
-  yarnStitch( int _sizeCub) {
+  yarnStitch( int _sizeCub, int _yarnthickness) {
     sizeCub = _sizeCub;
+    yarnthickness = _yarnthickness;
   }
 
   public void drawPieceModelUnit(int x, int y, int _yarn0, int _yarn1, Boolean firstRow, Boolean lastRow) {
@@ -233,7 +256,7 @@ class yarnStitch {
     fbo.pushMatrix();
     fbo.translate(x*(sizeCub*2), y*(sizeCub*2));
     if (gridEnabled)drawGrid(sizeCub);
-    fbo.strokeWeight(2);
+    fbo.strokeWeight(yarnthickness);
     fbo.stroke(255, 0, 0);
     if (!firstRow) {
       drawSec3();  

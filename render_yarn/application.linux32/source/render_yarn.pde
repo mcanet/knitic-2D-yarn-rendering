@@ -14,7 +14,7 @@ void setup() {
 
   size(1600, 600);
   smooth();
-  loadNewpattern("user1img.png");
+  loadNewpattern("sample.png");
   noStroke();
   setupGui();
 }

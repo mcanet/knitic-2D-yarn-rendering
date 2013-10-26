@@ -1,16 +1,19 @@
 class yarnStitch {
   boolean gridEnabled = false;
   boolean debug = false;
-  float sizeCub = 10;
+  float sizeCub;
+  int yarnthickness;
+  
   color yarn0 = color (255, 255, 255);
   color yarn1 = color (255, 255, 255);
   color colorDebug = color (255, 102, 0);
-
+  
   yarnStitch() {
   }
 
-  yarnStitch( int _sizeCub) {
+  yarnStitch( int _sizeCub, int _yarnthickness) {
     sizeCub = _sizeCub;
+    yarnthickness = _yarnthickness;
   }
 
   void drawPieceModelUnit(int x, int y, color _yarn0, color _yarn1, Boolean firstRow, Boolean lastRow) {
@@ -20,7 +23,7 @@ class yarnStitch {
     fbo.pushMatrix();
     fbo.translate(x*(sizeCub*2), y*(sizeCub*2));
     if (gridEnabled)drawGrid(sizeCub);
-    fbo.strokeWeight(2);
+    fbo.strokeWeight(yarnthickness);
     fbo.stroke(255, 0, 0);
     if (!firstRow) {
       drawSec3();  

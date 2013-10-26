@@ -3,14 +3,20 @@ class yarnRender {
   yarnStitch[] myYarn;
   int stitchSize;
   int widthYarn;
+  int yarnthickness;
   PImage img;
 
   yarnRender() {
     stitchSize = 7;
+    yarnthickness = 2;
   }
 
   void setStitchSize(int _stitchSize) {
-    stitchSize = stitchSize;
+    stitchSize = _stitchSize;
+    render();
+  }
+  
+  void render(){
     loadPattern(img);
   }
 
@@ -19,10 +25,11 @@ class yarnRender {
     img = _img;
     img.loadPixels();
     int totalStitch = img.height*img.width;
+    
     widthYarn = img.width;
     myYarn = new yarnStitch[totalStitch];
     for (int i=0; i<myYarn.length;i++) {
-      myYarn[i] = new yarnStitch(stitchSize);
+      myYarn[i] = new yarnStitch(stitchSize, yarnthickness);
     }
 
     fbo = createGraphics(img.width*stitchSize*2, (img.height+1)*stitchSize*2);
@@ -56,24 +63,13 @@ class yarnRender {
         if (ceil(loc/widthYarn)==ceil((myYarn.length-1)/widthYarn)) lastRow = true;
 
         // The functions red(), green(), and blue() pull out the 3 color components from a pixel.
-        float r1 = red(img.pixels[loc]);
-        float g1 = green(img.pixels[loc]);
-        float b1 = blue(img.pixels[loc]);
-        float a1 = 1;
-
-        float r2 =0; 
-        float g2 =0;
-        float b2 =0;
-        float a2 =0;
-
+        color c1 = img.pixels[loc];
+        
+        color c2 = color(0,0,0);
+        
         if (!lastRow) {
-          r2 = red(img.pixels[loc+widthYarn]);
-          g2 = green(img.pixels[loc+widthYarn]);
-          b2 = blue(img.pixels[loc+widthYarn]);
-          a2 = 1;
+          c2 = img.pixels[loc+widthYarn];
         }
-        color c1 = color (r1, g1, b1);
-        color c2 = color (r2, g2, b2);
         if (firstRow) {
           myYarn[loc].drawPieceModelUnit(loc%widthYarn, loc/widthYarn, c1, c1, true, lastRow);
           myYarn[loc].drawPieceModelUnit((loc%widthYarn), (loc/widthYarn)+1, c1, c2, false, lastRow);
