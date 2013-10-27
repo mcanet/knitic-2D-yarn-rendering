@@ -14,7 +14,7 @@ PGraphics fbo;
 PGraphicsPDF pdf;
 Boolean exportTransparentPattern = true;
 int centerX = 0, centerY = 0, offsetX = 0, offsetY = 0;
-String exportType = "pdf";
+String exportType = "png";
 PImage imgSelected;
 
 void setup() {

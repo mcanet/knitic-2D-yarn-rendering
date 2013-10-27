@@ -35,7 +35,7 @@ PGraphics fbo;
 PGraphicsPDF pdf;
 Boolean exportTransparentPattern = true;
 int centerX = 0, centerY = 0, offsetX = 0, offsetY = 0;
-String exportType = "pdf";
+String exportType = "png";
 PImage imgSelected;
 
 public void setup() {
@@ -125,7 +125,7 @@ public void setupGui() {
                   .addItem("PDF", 1)
                     .addItem("PNG", 2)
                       ;
-  r.activate(0);
+  r.activate(1);
 }
 
 public void guiDraw() {
@@ -150,7 +150,8 @@ public void controlEvent(ControlEvent c) {
     selectInput("Select a file to process:", "fileSelected");
   }
   if (c.getName()=="Export render") {
-    if (exportType=="image") {
+    println("export");
+    if (exportType.equals("image")) {
       String fileName = "";
       fileName = JOptionPane.showInputDialog(frame, "Write filename to export", "export.png");
       myYarnRenderFBO.exportImage(fileName);
@@ -186,12 +187,12 @@ public void controlEvent(ControlEvent c) {
   }
   if (c.isFrom(r)){
     if(c.getValue()==1.0f){
-      println("choose image");
-       exportType = "image";
+      println("choose pdf");
+       exportType = "pdf";
     }
     if(c.getValue()==2.0f){
-       println("choose pdf");
-       exportType = "pdf";
+       println("choose image");
+       exportType = "image";
     }
   }
 }
@@ -209,7 +210,6 @@ public void fileSelected(File selection) {
     loadNewpattern(selection.getAbsolutePath());
   }
 }
-
 class yarnRenderFBO {
 
   yarnStitchFBO[] myYarn;
@@ -786,7 +786,6 @@ class yarnStitchPDF {
     }
   }
 }
-
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "render_yarn" };
     if (passedArgs != null) {
