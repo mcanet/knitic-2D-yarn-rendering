@@ -14,7 +14,6 @@ Render functionalities:
 Dependency libraries:
 * controlP5
 
-Inspirations:
 Related academic papers about yarn visualization:
 * Stitch Meshes. Authors: Cem Yuksel, Jonathan M. Kaldor, Doug L. James, Steve Marschner. SIGGRAPH 2012 (http://www.cemyuksel.com/research/stitchmeshes/ )
 * Simulating Knitted Cloth at the Yarn Level. Authors: Jonathan M. Kaldor, Doug L. James, Steve Marschner (Cornell University) SIGGRAPH 2008 (http://www.cs.cornell.edu/~srm/publications/SG08-knit.html)
