@@ -1,3 +1,5 @@
+RadioButton r;
+
 void setupGui() {
   cp5 = new ControlP5(this);
   cp = cp5.addColorPicker("picker")
@@ -6,26 +8,39 @@ void setupGui() {
         ;
 
   cp5.addButton("Open pattern image", 1, 10, height-60, 100, 20);
-  
+
   cp5.addSlider("Yarn thickness")
-     .setPosition(450,height-60)
-     .setRange(1,20)
-     .setValue(2)
-     ;
-     
+    .setPosition(450, height-60)
+      .setRange(1, 20)
+        .setValue(2)
+          ;
+
   cp5.addSlider("Stitch Size")
-     .setPosition(450,height-40)
-     .setRange(1,100)
-     .setValue(7)
-     ;
-  
-  cp5.addButton("Export image", 1, 650, height-60, 100, 20);
+    .setPosition(450, height-40)
+      .setRange(1, 100)
+        .setValue(7)
+          ;
+
+  cp5.addButton("Export render", 1, 850, height-60, 100, 20);
   cp5.addToggle("Export transparent background")
     .setPosition(650, height-35)
       .setSize(15, 15)
-        .setValue(true)
-          ;
-  
+        .setColorActive(color(255))
+          .setValue(true)
+            ;
+
+  r = cp5.addRadioButton("radioButton")
+    .setPosition(650, height-60)
+      .setSize(40, 20)
+        .setColorForeground(color(120))
+          .setColorActive(color(255))
+            .setColorLabel(color(255))
+              .setItemsPerRow(5)
+                .setSpacingColumn(50)
+                  .addItem("PDF", 1)
+                    .addItem("PNG", 2)
+                      ;
+  r.activate(0);
 }
 
 void guiDraw() {
@@ -49,10 +64,23 @@ public void controlEvent(ControlEvent c) {
   if (c.getName()=="Open pattern image") {
     selectInput("Select a file to process:", "fileSelected");
   }
-  if (c.getName()=="Export image") {
-    String fileName = "";
-    fileName = JOptionPane.showInputDialog(frame, "Write filename to export", "export.png");
-    myYarnRender.exportImage(fileName);
+  if (c.getName()=="Export render") {
+    if (exportType=="image") {
+      String fileName = "";
+      fileName = JOptionPane.showInputDialog(frame, "Write filename to export", "export.png");
+      myYarnRenderFBO.exportImage(fileName);
+    }
+    else if (exportType=="pdf") {
+      String fileName = "";
+      fileName = JOptionPane.showInputDialog(frame, "Write filename to export", "export.pdf");
+      myYarnRenderPDF = new yarnRenderPDF();
+      if (fileName.substring(fileName.length()-4, fileName.length()).equals(".pdf")) {
+        myYarnRenderPDF.loadPatternAndExport(imgSelected, fileName);
+      }
+      else {
+        myYarnRenderPDF.loadPatternAndExport(imgSelected, fileName+".pdf");
+      }
+    }
   }
   if (c.getName()=="Export transparent background") {
     if (c.getValue()==0.0) {
@@ -64,12 +92,22 @@ public void controlEvent(ControlEvent c) {
   }
   if (c.getName()=="Yarn thickness") {
     println(c.getValue());
-    myYarnRender.yarnthickness = ceil(c.getValue());
-    myYarnRender.render();
+    myYarnRenderFBO.yarnthickness = ceil(c.getValue());
+    myYarnRenderFBO.render();
   }
   if (c.getName()=="Stitch Size") {
-    myYarnRender.stitchSize = ceil(c.getValue());
-    myYarnRender.render();
+    myYarnRenderFBO.stitchSize = ceil(c.getValue());
+    myYarnRenderFBO.render();
+  }
+  if (c.isFrom(r)){
+    if(c.getValue()==1.0){
+      println("choose image");
+       exportType = "image";
+    }
+    if(c.getValue()==2.0){
+       println("choose pdf");
+       exportType = "pdf";
+    }
   }
 }
 

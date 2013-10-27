@@ -1,4 +1,4 @@
-class yarnStitch {
+class yarnStitchFBO {
   boolean gridEnabled = false;
   boolean debug = false;
   float sizeCub;
@@ -8,10 +8,10 @@ class yarnStitch {
   color yarn1 = color (255, 255, 255);
   color colorDebug = color (255, 102, 0);
   
-  yarnStitch() {
+  yarnStitchFBO() {
   }
 
-  yarnStitch( int _sizeCub, int _yarnthickness) {
+  yarnStitchFBO( int _sizeCub, int _yarnthickness) {
     sizeCub = _sizeCub;
     yarnthickness = _yarnthickness;
   }
@@ -204,6 +204,219 @@ class yarnStitch {
       fbo.stroke(colorDebug);
       fbo.line(x1, y1, x2, y2);
       fbo.line(x3, y3, x4, y4);
+    }
+  }
+}
+
+//--------------
+
+
+class yarnStitchPDF {
+  boolean gridEnabled = false;
+  boolean debug = false;
+  float sizeCub;
+  int yarnthickness;
+  
+  color yarn0 = color (255, 255, 255);
+  color yarn1 = color (255, 255, 255);
+  color colorDebug = color (255, 102, 0);
+  
+  yarnStitchPDF() {
+  }
+
+  yarnStitchPDF( int _sizeCub, int _yarnthickness) {
+    sizeCub = _sizeCub;
+    yarnthickness = _yarnthickness;
+  }
+
+  void drawPieceModelUnit(int x, int y, color _yarn0, color _yarn1, Boolean firstRow, Boolean lastRow) {
+    yarn0 = _yarn0;
+    yarn1 = _yarn1;
+
+    pdf.pushMatrix();
+    pdf.translate(x*(sizeCub*2), y*(sizeCub*2));
+    if (gridEnabled)drawGrid(sizeCub);
+    pdf.strokeWeight(yarnthickness);
+    pdf.stroke(255, 0, 0);
+    if (!firstRow) {
+      drawSec3();  
+      drawSec4();
+    }
+    //
+    if (!lastRow) {
+      drawSec_1();
+      drawSec_2();
+      drawSec_3();
+      drawSec_4();
+    }
+    if (!firstRow) {
+      drawSec1();
+      drawSec2();
+    }
+    pdf.popMatrix();
+  }
+
+  void drawGrid(float sizeCub) {
+    // draw grid
+    pdf.stroke(30);
+    pdf.strokeWeight(1);
+    for (int x=0; x<3;x++) {
+      pdf.line(float(x)*sizeCub, 0, float(x)*sizeCub, sizeCub*2 );
+    }
+    for (int y=0; y<3;y++) {
+      pdf.line(0, float(y)*sizeCub, sizeCub*2, float(y)*sizeCub );
+    }
+  }
+
+  void drawSec1() {
+    float x1 = sizeCub*0.4;
+    float y1 = 0;
+    float x2 = sizeCub*0.6;
+    float y2 = sizeCub*0.5;
+    float x3 = sizeCub*0.7;
+    float y3 = sizeCub*0.3;
+    float x4 = sizeCub*0.75;
+    float y4 = sizeCub;
+    pdf.noFill();
+    pdf.stroke(yarn0);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    if (debug) {
+      pdf.stroke(colorDebug);
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
+    }
+  }
+
+  void drawSec2() {
+    float x1 = sizeCub*1.6;
+    float y1 = 0;
+    float x2 = sizeCub*1.4;
+    float y2 = sizeCub*0.5;
+    float x3 = sizeCub*1.3;
+    float y3 = sizeCub*0.3;
+    float x4 = sizeCub*1.25;
+    float y4 = sizeCub;
+    pdf.noFill();
+    pdf.stroke(yarn0);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    if (debug) {
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
+    }
+  }
+
+  void drawSec3() {
+    float x1 = sizeCub*0.75;
+    float y1 = sizeCub;
+    float x2 = sizeCub*0.75;
+    float y2 = sizeCub*1.7;
+    float x3 = sizeCub*0.2;
+    float y3 = sizeCub*1.8;
+    float x4 = 0;
+    float y4 = sizeCub*1.8;
+    pdf.noFill();
+    pdf.stroke(yarn0);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+
+    if (debug) {
+
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
+    }
+  }
+
+  void drawSec4() {
+    float x1 = sizeCub*1.25;
+    float y1 = sizeCub;
+    float x2 = sizeCub*1.25;
+    float y2 = sizeCub*1.7;
+    float x3 = sizeCub*1.8;
+    float y3 = sizeCub*1.8;
+    float x4 = sizeCub*2;
+    float y4 = sizeCub*1.8;
+    pdf.noFill();
+    pdf.stroke(yarn0);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    if (debug) {
+      pdf.stroke(colorDebug);
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
+    }
+  }
+
+  void drawSec_1() {
+    float x1 = sizeCub;
+    float y1 = sizeCub*0.2;
+    float x2 = sizeCub*0.25;
+    float y2 = sizeCub*0.25;
+    float x3 = sizeCub*0.25;
+    float y3 = sizeCub*0.8;
+    float x4 = sizeCub*0.25;
+    float y4 = sizeCub;
+    pdf.noFill();
+    pdf.stroke(yarn1);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    if (debug) {
+      pdf.stroke(colorDebug);
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
+    }
+  }
+
+  void drawSec_2() {
+    float x1 = sizeCub;
+    float y1 = sizeCub*0.2;
+    float x2 = sizeCub*1.75;
+    float y2 = sizeCub*0.25;
+    float x3 = sizeCub*1.75;
+    float y3 = sizeCub*0.8;
+    float x4 = sizeCub*1.75;
+    float y4 = sizeCub;
+    pdf.noFill();
+    pdf.stroke(yarn1);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    if (debug) {
+      pdf.stroke(colorDebug);
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
+    }
+  }
+
+  void drawSec_3() {
+    float x1 = sizeCub*0.25;
+    float y1 = sizeCub;
+    float x2 = sizeCub*0.3;
+    float y2 = sizeCub*1.7;
+    float x3 = sizeCub*0.3;
+    float y3 = sizeCub*1.8;
+    float x4 = sizeCub*0.4;
+    float y4 = sizeCub*2;
+    pdf.noFill();
+    pdf.stroke(yarn1);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    if (debug) {
+      pdf.stroke(colorDebug);
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
+    }
+  }
+
+  void drawSec_4() {
+    float x1 = sizeCub*1.75;
+    float y1 = sizeCub;
+    float x2 = sizeCub*1.7;
+    float y2 = sizeCub*1.7;
+    float x3 = sizeCub*1.7;
+    float y3 = sizeCub*1.8;
+    float x4 = sizeCub*1.6;
+    float y4 = sizeCub*2;
+    pdf.noFill();
+    pdf.stroke(yarn1);
+    pdf.bezier(x1, y1, x2, y2, x3, y3, x4, y4);
+    if (debug) {
+      pdf.stroke(colorDebug);
+      pdf.line(x1, y1, x2, y2);
+      pdf.line(x3, y3, x4, y4);
     }
   }
 }

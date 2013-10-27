@@ -1,16 +1,21 @@
 import controlP5.*;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
+import processing.pdf.*;
+
 
 // global variables
 ControlP5 cp5;
 ColorPicker cp;
 
-yarnRender myYarnRender;
+yarnRenderFBO myYarnRenderFBO;
+yarnRenderPDF myYarnRenderPDF;
 PGraphics fbo;
+PGraphicsPDF pdf;
 Boolean exportTransparentPattern = true;
-
 int centerX = 0, centerY = 0, offsetX = 0, offsetY = 0;
+String exportType = "pdf";
+PImage imgSelected;
 
 void setup() {
 
@@ -53,7 +58,7 @@ void mousePressed(){
 
 void loadNewpattern(String imagePath) {
   println("load:"+imagePath);
-  PImage img = loadImage(imagePath);
-  myYarnRender = new yarnRender();
-  myYarnRender.loadPattern(img);
+  imgSelected = loadImage(imagePath);
+  myYarnRenderFBO = new yarnRenderFBO();
+  myYarnRenderFBO.loadPattern(imgSelected);
 }
