@@ -7,8 +7,8 @@ This project is part of the research on the knitic project(open hardware knittin
 The code is made using Processing 2.
 
 Render functionalities:
-* export in png and pdf(vectorial)
-* transparent background or fill with color
+* Export in png and pdf(vectorial)
+* Transparent background or fill with color
 * Sliders to control realtime yarn thickness and stitch size   
 
 Dependency libraries:
