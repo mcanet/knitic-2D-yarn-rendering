@@ -6,8 +6,20 @@ This project is part of the research on the knitic project(open hardware knittin
 
 The code is made using Processing 2.
 
+Render functionalities:
+* export in png and pdf(vectorial)
+* transparent background or fill with color
+* Sliders to control realtime yarn thickness and stitch size   
+
 Dependency libraries:
 * controlP5
+
+Inspirations:
+Related academic papers about yarn visualization:
+* Stitch Meshes. Authors: Cem Yuksel, Jonathan M. Kaldor, Doug L. James, Steve Marschner. SIGGRAPH 2012 (http://www.cemyuksel.com/research/stitchmeshes/ )
+* Simulating Knitted Cloth at the Yarn Level. Authors: Jonathan M. Kaldor, Doug L. James, Steve Marschner (Cornell University) SIGGRAPH 2008 (http://www.cs.cornell.edu/~srm/publications/SG08-knit.html)
+* Realistic Rendering of Knitwear. Authors: Y. Shi (Faculty of Science, Nanjing University of Science and Technology, Nanjing, 210094, P. R. China) , Y. Jiang (Department of Computing Science, WUXI Institute of Technology, WUXI, 214073, P. R. China) 2006
+
 
 Please report any error you may find to me (mar.canet@gmail.com).
 
