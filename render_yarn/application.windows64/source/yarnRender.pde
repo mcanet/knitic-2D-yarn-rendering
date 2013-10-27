@@ -1,12 +1,12 @@
-class yarnRender {
+class yarnRenderFBO {
 
-  yarnStitch[] myYarn;
+  yarnStitchFBO[] myYarn;
   int stitchSize;
   int widthYarn;
   int yarnthickness;
   PImage img;
 
-  yarnRender() {
+  yarnRenderFBO() {
     stitchSize = 7;
     yarnthickness = 2;
   }
@@ -27,12 +27,13 @@ class yarnRender {
     int totalStitch = img.height*img.width;
     
     widthYarn = img.width;
-    myYarn = new yarnStitch[totalStitch];
+    myYarn = new yarnStitchFBO[totalStitch];
     for (int i=0; i<myYarn.length;i++) {
-      myYarn[i] = new yarnStitch(stitchSize, yarnthickness);
+      myYarn[i] = new yarnStitchFBO(stitchSize, yarnthickness);
     }
 
     fbo = createGraphics(img.width*stitchSize*2, (img.height+1)*stitchSize*2);
+    //pdf = (PGraphicsPDF) createGraphics(width, height, PDF, "pause-resume.pdf");
     draw();
     loop(); 
   }
@@ -80,5 +81,74 @@ class yarnRender {
       }
     }
     fbo.endDraw();
+  }
+}
+
+class yarnRenderPDF {
+
+  yarnStitchPDF[] myYarn;
+  int stitchSize;
+  int widthYarn;
+  int yarnthickness;
+  PImage img;
+
+  yarnRenderPDF() {
+    stitchSize = 7;
+    yarnthickness = 2;
+  }
+
+  void loadPatternAndExport(PImage _img, String exportFileName) {
+    noLoop(); 
+    img = _img;
+    img.loadPixels();
+    int totalStitch = img.height*img.width;
+    
+    widthYarn = img.width;
+    myYarn = new yarnStitchPDF[totalStitch];
+    for (int i=0; i<myYarn.length;i++) {
+      myYarn[i] = new yarnStitchPDF(stitchSize, yarnthickness);
+    }
+
+    pdf = (PGraphicsPDF) createGraphics(img.width*stitchSize*2, (img.height+1)*stitchSize*2, PDF, exportFileName);
+    draw();
+    loop(); 
+  }
+
+  void draw() {
+    pdf.beginDraw();
+    if(!exportTransparentPattern){
+      pdf.fill(cp.getColorValue());
+      pdf.rect(0,0,img.width*stitchSize*2, (img.height+1)*stitchSize*2);
+    }
+    img.loadPixels();
+    for (int y = 0; y < img.height; y++) {
+      for (int x = 0; x < img.width; x++) {
+        int loc = x + y*img.width;
+
+        // posicion in garment
+        Boolean lastRow = false;
+        Boolean firstRow = false;
+        if ((loc/widthYarn)==0) firstRow = true;
+        if (ceil(loc/widthYarn)==ceil((myYarn.length-1)/widthYarn)) lastRow = true;
+
+        // The functions red(), green(), and blue() pull out the 3 color components from a pixel.
+        color c1 = img.pixels[loc];
+        
+        color c2 = color(0,0,0);
+        
+        if (!lastRow) {
+          c2 = img.pixels[loc+widthYarn];
+        }
+        if (firstRow) {
+          myYarn[loc].drawPieceModelUnit(loc%widthYarn, loc/widthYarn, c1, c1, true, lastRow);
+          myYarn[loc].drawPieceModelUnit((loc%widthYarn), (loc/widthYarn)+1, c1, c2, false, lastRow);
+        }
+        else {
+          myYarn[loc].drawPieceModelUnit((loc%widthYarn), (loc/widthYarn)+1, c1, c2, firstRow, lastRow);
+        }
+      }
+    }
+    pdf.dispose();
+    pdf.endDraw();
   }
 }
