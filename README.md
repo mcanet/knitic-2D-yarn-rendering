@@ -18,7 +18,7 @@ Related academic papers about yarn visualization:
 * http://research.microsoft.com/pubs/69051/tvcg_knitwear.pdf
 * Stitch Meshes. Authors: Cem Yuksel, Jonathan M. Kaldor, Doug L. James, Steve Marschner. SIGGRAPH 2012 (http://www.cemyuksel.com/research/stitchmeshes/ )
 * Simulating Knitted Cloth at the Yarn Level. Authors: Jonathan M. Kaldor, Doug L. James, Steve Marschner (Cornell University) SIGGRAPH 2008 (http://www.cs.cornell.edu/~srm/publications/SG08-knit.html)
-* Realistic Rendering of Knitwear. Authors: Y. Shi (Faculty of Science, Nanjing University of Science and Technology, Nanjing, 210094, P. R. China) , Y. Jiang (Department of Computing Science, WUXI Institute of Technology, WUXI, 214073, P. R. China). Journal IEEE Transactions on Visualization and Computer Graphics archive Volume 9 Issue 1, January 2003 2003
+* Realistic Rendering of Knitwear. Authors: Y. Shi (Faculty of Science, Nanjing University of Science and Technology, Nanjing, 210094, P. R. China) , Y. Jiang (Department of Computing Science, WUXI Institute of Technology, WUXI, 214073, P. R. China). Journal IEEE Transactions on Visualization and Computer Graphics archive Volume 9 Issue 1, January 2003 
 (http://research.microsoft.com/pubs/69051/tvcg_knitwear.pdf). Disney Research Beijing
 
 Please report any error you may find to me (mar.canet@gmail.com).
